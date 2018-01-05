@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>CarImage SQL Generator</h2>
+
+    <form name="sqlGeneratorForm" action="" method="GET">
+    <strong><p>Make:</strong> <input name="make" type="text" /></p>
+
+    <strong><p>Model:</strong> <input name="model" type="text" /></p>
+
+    <p><input name="Submit" type="button" onclick="generateSql(this.form)"value="Download .sql file" /></p>
+    </form>
+</body>
+</html>
+
+<script>
+    function generateSql(form) {
+        var modelPath = form.model.value.trim().replace(" ","_");
+        var makePath = form.make.value.trim().replace(" ","_");
+
+        download(makePath.toLowerCase() + "_" + modelPath.toLowerCase() + ".sql", "INSERT INTO car_images_mapping " +
+            "(doors, make, model, type, url, country, city, location) VALUES " +
+            "('.*', '" + form.make.value.trim() + ".*', '.*" + form.model.value.trim() +
+            "([ ].*)?$', '.*', 'new_images/" + makePath.toLowerCase() + "/" + modelPath.toLowerCase() + "', '.*', '.*', '.*');");
+    }
+
+    function download(filename, text) {
+        var pom = document.createElement('a');
+        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        pom.setAttribute('download', filename);
+
+        if (document.createEvent) {
+            var event = document.createEvent('MouseEvents');
+            event.initEvent('click', true, true);
+            pom.dispatchEvent(event);
+        }
+        else {
+            pom.click();
+        }
+    }
+</script>
