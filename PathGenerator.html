@@ -19,7 +19,7 @@
 
 <script>
     function generateSql(form) {
-        var modelPath = form.model.value.trim().replace(" ","_");
+        var modelPath = form.model.value.trim().replace(new RegExp(" ",'g'), "_");
         var makePath = form.make.value.trim().replace(" ","_");
 
         download(makePath.toLowerCase() + "_" + modelPath.toLowerCase() + ".sql", "INSERT INTO car_images_mapping " +
